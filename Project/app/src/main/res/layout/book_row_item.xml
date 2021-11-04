@@ -37,7 +37,7 @@
             android:layout_marginTop="3dp"
             android:layout_toEndOf="@id/searchedImage"
             android:padding="3dp"
-            android:text="Publisher"
+            android:text="Author(s)"
             android:textSize="11sp" />
 
         <TextView
@@ -48,20 +48,7 @@
             android:layout_marginTop="3dp"
             android:layout_toEndOf="@id/searchedImage"
             android:padding="3dp"
-            android:text="Page count"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/idTVDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/searchedDate"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="5dp"
-            android:layout_toEndOf="@+id/searchedImage"
-            android:padding="3dp"
-            android:text="date"
+            android:text="Date"
             android:textSize="11sp" />
 
     </RelativeLayout>
