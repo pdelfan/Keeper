@@ -76,7 +76,6 @@ public class AddBookActivity extends AppCompatActivity {
 
 
     private void fetchBooks(String keyword) {
-        bookInfoArrayList.clear();
         adapter.notifyDataSetChanged();
         noResultLabel.setVisibility(View.INVISIBLE);
         loadingBar.setVisibility(View.VISIBLE);
@@ -87,6 +86,7 @@ public class AddBookActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                bookInfoArrayList.clear();
                 try {
                     JSONArray itemsArray = response.getJSONArray("items");
 
