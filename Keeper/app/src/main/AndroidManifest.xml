@@ -13,11 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Keeper">
         <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity
             android:name=".BookDetailActivity"
             android:exported="true"
             android:label="Searched Book"
-            android:parentActivityName=".AddBookActivity"
-            />
+            android:parentActivityName=".AddBookActivity" />
         <activity
             android:name=".AddBookActivity"
             android:exported="true"
