@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Keeper</string>
+    <string name="add_book_buton">Add book buton</string>
+    <string name="description">Description</string>
+    <string name="author">Author</string>
+    <string name="title">Title</string>
+    <string name="_2021">2021</string>
+    <string name="language">LANGUAGE</string>
+    <string name="genre">GENRE</string>
+    <string name="en">EN</string>
+    <string name="book_cover">Book cover</string>
+    <string name="add_to_books">Add to books</string>
+    <string name="genre_icon">Genre icon</string>
+    <string name="released_date_icon">Released date icon</string>
+    <string name="humour">Humour</string>
+    <string name="globe_language_icon">Globe (language) icon</string>
+    <string name="released">RELEASED</string>
+</resources>

@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Keeper</string>
-    <string name="title_books">Books</string>
-    <string name="title_addBbook">Add Book</string>
-    <string name="title_settings">Settings</string>
-</resources>
