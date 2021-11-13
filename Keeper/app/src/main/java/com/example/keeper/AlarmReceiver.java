@@ -33,7 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_android)
                     .setContentTitle("Hey...")
-                    .setContentText("Don't forget to make new highlights today!n ")
+                    .setContentText("Don't forget to make new highlights today!")
                     .setContentIntent(contentIntent)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setAutoCancel(true);
