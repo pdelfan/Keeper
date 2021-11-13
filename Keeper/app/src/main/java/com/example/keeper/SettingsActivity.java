@@ -67,7 +67,7 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
                     Intent intent = new Intent(SettingsActivity.this, AlarmReceiver.class);
                     intent.putExtra("notificationId", notificationId);
                     intent.putExtra("message", "Body");
-                    PendingIntent alarmIntent = PendingIntent.getBroadcast(SettingsActivity.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    PendingIntent alarmIntent = PendingIntent.getBroadcast(SettingsActivity.this, 0, intent, PendingIntent.FLAG_MUTABLE);
                     AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
                     alarmManager.cancel(alarmIntent);
 
@@ -104,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity implements TimePickerDia
             intent.putExtra("notificationId", notificationId);
             intent.putExtra("message", "Body");
 
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(SettingsActivity.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(SettingsActivity.this, 0, intent, PendingIntent.FLAG_MUTABLE);
 
             AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
             alarmManager.cancel(alarmIntent);
