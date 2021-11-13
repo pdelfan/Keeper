@@ -11,15 +11,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
+
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardElevation="0dp"
+        android:elevation="15dp"
         app:cardCornerRadius="2dp"
         >
 
@@ -41,11 +40,10 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="0dp"
-                android:background="@color/purple"
+                android:background="?attr/colorPrimary"
                 android:contentDescription="TODO"
                 android:padding="0.5dp"
-                android:scaleType="centerCrop"
-                />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/searchedGenre"
@@ -55,7 +53,7 @@
                 android:layout_toEndOf="@id/searchedCover"
                 android:fontFamily="@font/raleway_bold"
                 android:text="Genre"
-                android:textColor="#701C56"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="13sp" />
 
             <TextView
@@ -80,7 +78,7 @@
                 android:fontFamily="@font/raleway_semibold"
                 android:paddingBottom="3dp"
                 android:text="Author(s)"
-                android:textColor="#666"
+                android:textColor="@color/gray_light"
                 android:textSize="15sp" />
 
             <TextView
@@ -92,7 +90,7 @@
                 android:layout_toEndOf="@id/searchedCover"
                 android:fontFamily="@font/raleway_semibold"
                 android:text="Date"
-                android:textColor="@color/red"
+                android:textColor="?attr/colorSecondary"
                 android:textSize="13sp" />
 
 

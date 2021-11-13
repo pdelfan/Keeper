@@ -20,7 +20,7 @@
                 android:id="@+id/coverDetail"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:background="@color/purple"
+                android:background="?attr/colorPrimary"
                 android:contentDescription="@string/book_cover"
                 android:padding="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +116,7 @@
                         android:fontFamily="@font/raleway_semibold"
                         android:text="@string/_2021"
                         android:textAlignment="center"
-                        android:textColor="@color/gray" />
+                        android:textColor="?attr/colorOnSecondary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -153,7 +153,7 @@
                         android:maxLines="3"
                         android:text="@string/humour"
                         android:textAlignment="center"
-                        android:textColor="@color/gray_dark" />
+                        android:textColor="?attr/colorOnSecondary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -188,7 +188,7 @@
                         android:fontFamily="@font/raleway_semibold"
                         android:text="@string/en"
                         android:textAlignment="center"
-                        android:textColor="@color/gray_dark" />
+                        android:textColor="?attr/colorOnSecondary" />
                 </LinearLayout>
 
             </LinearLayout>
