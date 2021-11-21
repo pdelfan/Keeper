@@ -1,6 +1,5 @@
 package com.example.keeper;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -34,7 +30,7 @@ public class SearchedBookAdapter extends RecyclerView.Adapter<SearchedBookAdapte
     @NonNull
     @Override
     public SearchedBookHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.searched_book, parent, false);
         return new SearchedBookHolder(view);
     }
 
@@ -89,13 +85,13 @@ public class SearchedBookAdapter extends RecyclerView.Adapter<SearchedBookAdapte
         public SearchedBookHolder(@NonNull View itemView) {
             super(itemView);
 
-            cover = itemView.findViewById(R.id.searchedCover);
-            title = itemView.findViewById(R.id.searchedTitle);
-            authors = itemView.findViewById(R.id.searchedAuthors);
-            date = itemView.findViewById(R.id.searchedDate);
+            cover = itemView.findViewById(R.id.bookCover);
+            title = itemView.findViewById(R.id.bookTitle);
+            authors = itemView.findViewById(R.id.bookAuthors);
+            date = itemView.findViewById(R.id.bookDate);
             genre = itemView.findViewById(R.id.searchedGenre);
 
-            relativeLayout = itemView.findViewById(R.id.searchedCard);
+            relativeLayout = itemView.findViewById(R.id.searchedBookCard);
         }
     }
 }

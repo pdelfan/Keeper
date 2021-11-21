@@ -14,11 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Keeper">
         <activity
-            android:name=".SettingsActivity"
-            android:label="Settings"
+            android:name=".HighlightsActivity"
             android:exported="true"
+            android:label="Highlights"
             android:parentActivityName=".MainActivity"
             />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:label="Settings"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".BookDetailActivity"
             android:exported="true"
@@ -45,7 +50,6 @@
             android:resource="@array/preloaded_fonts" />
 
         <receiver android:name=".AlarmReceiver" />
-
     </application>
 
 </manifest>

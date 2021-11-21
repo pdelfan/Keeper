@@ -11,17 +11,16 @@
     <color name="purple_200">#F38CDA</color>
     <color name="purple_500">#570D45</color>
     <color name="purple_700">#300021</color>
+    <color name="teal_100">#D1EEF3</color>
     <color name="teal_200">#3298a8</color>
     <color name="teal_700">#01484a</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="background_light">#ffffff</color>
+    <color name="background_dark">#000000</color>
 
 
-
-<!--    <color name="red">#d81b60</color>-->
-<!--    <color name="red_light">#ff5c8d</color>-->
-<!--    <color name="red_dark">#a00037</color>-->
 
     <color name="gray">#424242</color>
     <color name="gray_light">#6d6d6d</color>

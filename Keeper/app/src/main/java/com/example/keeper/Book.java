@@ -4,12 +4,23 @@ package com.example.keeper;
 import java.util.ArrayList;
 
 public class Book {
+    private String id;
     private String title;
     private String subtitle;
     private String authors;
     private String publishedDate;
     private String cover;
     private String language;
+    private String genre;
+    private String description;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getLanguage() {
         return language;
@@ -28,8 +39,6 @@ public class Book {
         this.genre = genre;
     }
 
-    private String genre;
-
     public String getDescription() {
         return description;
     }
@@ -37,8 +46,6 @@ public class Book {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    private String description;
 
     public String getTitle() {
         return title;
@@ -76,19 +83,28 @@ public class Book {
         return cover;
     }
 
-    public void setCover(String thumbnail) {
-        this.cover = thumbnail;
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
-    // constructor
-    public Book(String title, String authors, String publishedDate, String thumbnail, String description, String genre, String language) {
+    // constructor for the searched book
+    public Book(String title, String authors, String publishedDate, String cover, String description, String genre, String language) {
         this.title = title;
         this.authors = authors;
         this.publishedDate = publishedDate;
-        this.cover = thumbnail;
+        this.cover = cover;
         this.description = description;
         this.genre = genre;
         this.language = language;
+    }
+
+    // constructor for the saved book
+    public Book (String id, String title, String authors, String publishedDate, String cover) {
+        this.id = id;
+        this.title = title;
+        this.authors = authors;
+        this.publishedDate = publishedDate;
+        this.cover = cover;
     }
 
 

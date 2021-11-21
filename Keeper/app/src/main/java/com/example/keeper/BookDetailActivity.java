@@ -3,6 +3,8 @@ package com.example.keeper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,12 +14,15 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private ImageView coverDetail;
     private TextView titleDetail, authorsDetail, dateDetail, descriptionDetail, genreDetail, languageDetail;
+    private Button addToBooksButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        addToBooksButton = findViewById(R.id.addToBooksButton);
 
         ImageView coverDetail = findViewById(R.id.coverDetail);
         titleDetail = findViewById(R.id.titleDetail);
@@ -49,6 +54,15 @@ public class BookDetailActivity extends AppCompatActivity {
         } else {
             Glide.with(this).load(cover).into(coverDetail);
         }
+
+        addToBooksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyDatabaseHelper myDB = new MyDatabaseHelper(BookDetailActivity.this);
+                myDB.addBook(title, authors, date, cover);
+                myDB.close();
+            }
+        });
 
     }
 }

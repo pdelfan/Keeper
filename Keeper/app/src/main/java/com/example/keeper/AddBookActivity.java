@@ -52,7 +52,6 @@ public class AddBookActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-
         noResultLabel = findViewById(R.id.noResultLabel);
         loadingBar = findViewById(R.id.progressBar);
 
