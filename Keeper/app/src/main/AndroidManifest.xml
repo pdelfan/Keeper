@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.sensor.light" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Keeper">
         <activity
+            android:name=".AddTextHighlightActivity"
+            android:exported="true"
+            android:label="Add highlight through text"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity
             android:name=".HighlightsActivity"
             android:exported="true"
             android:label="Highlights"
-            android:parentActivityName=".MainActivity"
-            />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SettingsActivity"
             android:exported="true"

@@ -76,18 +76,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public Cursor getAllBooks() {
-//        String query = "SELECT * FROM " + TABLE_BOOKS;
-//        SQLiteDatabase db = this.getReadableDatabase();
-//
-//        Cursor cursor = null;
-//        if (db != null) {
-//            cursor = db.rawQuery(query, null);
-//        }
-//
-//        return cursor;
-//    }
-
 
     public ArrayList<Book> getAllBooks() {
         books = new ArrayList<>();
@@ -113,15 +101,32 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean deleteBook(String BOOK_ID) {
+    public boolean deleteBook(String bookID) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.delete(TABLE_BOOKS,  "book_id=?", new String[]{BOOK_ID});
+        long result = db.delete(TABLE_BOOKS,  "book_id=?", new String[]{bookID});
         if (result == -1) {
             Toast.makeText(context, "Couldn't delete the book", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             Toast.makeText(context, "Deleted the book", Toast.LENGTH_SHORT).show();
             return true;
+        }
+    }
+
+
+    public void addHighlight(String bookID, String highlight, Integer pageNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(BOOK_ID, bookID);
+        cv.put(HIGHLIGHT, highlight);
+        cv.put(PAGE_NUMBER, pageNumber);
+
+        long result = db.insert(TABLE_HIGHLIGHTS, null, cv);
+        if (result == -1) {
+            Toast.makeText(context, "Couldn't add the hilighlight to your library", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Added the highlight to your library", Toast.LENGTH_SHORT).show();
         }
     }
 

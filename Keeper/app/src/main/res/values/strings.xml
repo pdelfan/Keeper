@@ -17,4 +17,7 @@
     <string name="released">RELEASED</string>
     <string name="settings">Settings</string>
     <string name="add_highlight">add highlight</string>
+    <string name="page_number">Page number</string>
+    <string name="highlight">Highlight</string>
+    <string name="save_highlight">Save Highlight</string>
 </resources>
