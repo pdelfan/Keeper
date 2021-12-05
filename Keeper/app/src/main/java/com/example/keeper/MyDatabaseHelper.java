@@ -15,6 +15,7 @@ import java.util.List;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private ArrayList<Book> books;
+    private ArrayList<Highlight> highlights;
 
     private Context context;
     private static final String DATABASE_NAME = "Library.db";
@@ -113,7 +114,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
     public void addHighlight(String bookID, String highlight, Integer pageNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -129,5 +129,51 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Added the highlight to your library", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public ArrayList<Highlight> getAllHighlights(String bookID) {
+        highlights = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_HIGHLIGHTS + " where " + "book_id" +"="+bookID;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToNext()) {
+            do {
+                String highlightID = cursor.getString(0);
+                String highlightText = cursor.getString(2);
+                Integer pageNumber = Integer.parseInt(cursor.getString(3));
+
+                Highlight highlight = new Highlight(highlightID, highlightText, pageNumber);
+                highlights.add(highlight);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return highlights;
+    }
+
+    public boolean deleteHighlight(String highlightID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_HIGHLIGHTS,  "note_id=?", new String[]{highlightID});
+        if (result == -1) {
+            Toast.makeText(context, "Couldn't delete the highlight(s)", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Toast.makeText(context, "Deleted the highlight(s)", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
+
+    public boolean deleteAllHighlights(String bookID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_HIGHLIGHTS,  "book_id=?", new String[]{bookID});
+        if (result == -1) {
+            Toast.makeText(context, "Couldn't delete all the highlight(s)", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Toast.makeText(context, "Deleted all the highlight(s)", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
+
 
 }

@@ -7,20 +7,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -32,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private FloatingActionButton addBookFAB;
+
+    private TextView noBooksLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        noBooksLabel = findViewById(R.id.noBooksLabel);
 
         // database
         myDB = new MyDatabaseHelper(MainActivity.this);
@@ -71,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
         booksList = myDB.getAllBooks();
         libraryBookAdapter = new LibraryBookAdapter(MainActivity.this, booksList);
         recyclerView.setAdapter(libraryBookAdapter);
+        updateNoBooksLabel(booksList);
+    }
+
+    public void updateNoBooksLabel(ArrayList<Book> booksList) {
+        if (booksList.size() < 1) {
+            noBooksLabel.setVisibility(View.VISIBLE);
+        } else {
+            noBooksLabel.setVisibility(View.INVISIBLE);
+        }
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -82,9 +94,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
-                if (myDB.deleteBook(booksList.get(position).getId())) {
+                if (myDB.deleteBook(booksList.get(position).getId()) && myDB.deleteAllHighlights(booksList.get(position).getId())) {
                     booksList.remove(position);
                     libraryBookAdapter.notifyItemRemoved(position);
+                    updateNoBooksLabel(booksList);
                 }
         }
 

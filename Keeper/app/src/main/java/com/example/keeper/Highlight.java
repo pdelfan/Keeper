@@ -1,8 +1,17 @@
 package com.example.keeper;
 
 public class Highlight {
+    private String id;
     private String highlight;
     private Integer pageNumber;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getHighlight() {
         return highlight;
@@ -20,7 +29,8 @@ public class Highlight {
         this.pageNumber = pageNumber;
     }
 
-    public Highlight(String highlight, int pageNumber) {
+    public Highlight(String id, String highlight, int pageNumber) {
+        this.id = id;
         this.highlight = highlight;
         this.pageNumber = pageNumber;
     }

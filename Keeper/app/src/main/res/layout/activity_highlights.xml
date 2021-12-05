@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".HighlightsActivity">
 
+    <TextView
+        android:id="@+id/noHighlights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No highlights for this book"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="invisible" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_highlight"
         android:layout_width="wrap_content"
@@ -44,5 +55,14 @@
         app:layout_constraintBottom_toTopOf="@+id/fab_highlight_camera"
         app:layout_constraintEnd_toEndOf="@+id/fab_highlight_camera"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/highlightsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

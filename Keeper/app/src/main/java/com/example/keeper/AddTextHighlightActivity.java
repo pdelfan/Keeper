@@ -41,7 +41,12 @@ public class AddTextHighlightActivity extends AppCompatActivity {
                     myDB.addHighlight(id, highlight, pageNumber);
                     myDB.close();
                     finish();
-                    Intent intent = new Intent(AddTextHighlightActivity.this, MainActivity.class);
+                    Intent intent = new Intent(AddTextHighlightActivity.this, HighlightsActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", id);
+                    intent.putExtras(bundle);
+
                     startActivity(intent);
                 }
             }

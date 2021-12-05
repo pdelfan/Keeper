@@ -1,9 +1,13 @@
 package com.example.keeper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Service;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,9 +18,15 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class HighlightsActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -30,11 +40,19 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
     private Sensor sensor;
     private float lightValue;
 
+    MyDatabaseHelper myDB;
+    ArrayList<Highlight> highlightsList;
+    HighlightsAdapter highlightsAdapter;
+    RecyclerView recyclerView;
+
+    private TextView noHighlightLabel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highlights);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -57,42 +75,43 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
             id = bundle.getString("id");
         }
 
-        addHighlightFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setVisibility(clicked);
-                setAnimation(clicked);
-                clicked = !clicked;
-            }
+        addHighlightFAB.setOnClickListener(view -> {
+            setVisibility(clicked);
+            setAnimation(clicked);
+            clicked = !clicked;
         });
 
-        addTextFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddTextHighlightActivity.class);
+        addTextFAB.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), AddTextHighlightActivity.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("id", id);
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("id", id);
 
-                intent.putExtras(bundle);
+            intent.putExtras(bundle1);
+            startActivity(intent);
+        });
+
+        addImageFAB.setOnClickListener(view -> {
+            // sensor
+            if (lightValue < 800.0) {
+                openDialog();
+            } else {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivity(intent);
             }
         });
 
-        addImageFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // sensor
-                if (lightValue < 800.0) {
-                    openDialog();
-                } else {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivity(intent);
-                }
-            }
-        });
+        noHighlightLabel = findViewById(R.id.noHighlights);
 
+        recyclerView = findViewById(R.id.highlightsRecyclerView);
+        myDB = new MyDatabaseHelper(HighlightsActivity.this);
+        updateAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
 
     @Override
     protected void onPause() {
@@ -103,9 +122,24 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
     @Override
     protected void onResume() {
         super.onResume();
+        updateAdapter();
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    public void updateAdapter() {
+        highlightsList = myDB.getAllHighlights(id);
+        highlightsAdapter = new HighlightsAdapter(HighlightsActivity.this, highlightsList);
+        recyclerView.setAdapter(highlightsAdapter);
+        updateHighlightLabel(highlightsList);
+    }
+
+    public void updateHighlightLabel(ArrayList<Highlight> highlightsList) {
+        if (highlightsList.size() < 1) {
+            noHighlightLabel.setVisibility(View.VISIBLE);
+        } else {
+            noHighlightLabel.setVisibility(View.INVISIBLE);
+        }
+    }
 
     private void setVisibility(Boolean clicked) {
         if (!clicked) {
@@ -147,5 +181,33 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
         LowLightDialog lowLightDialog = new LowLightDialog();
         lowLightDialog.show(getSupportFragmentManager(), "lowLightDialog");
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            if (myDB.deleteHighlight(highlightsList.get(position).getId())) {
+                highlightsList.remove(position);
+                highlightsAdapter.notifyItemRemoved(position);
+                updateHighlightLabel(highlightsList);
+            }
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(HighlightsActivity.this, R.color.red))
+                    .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_24)
+                    .create()
+                    .decorate();
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    };
+
 
 }

@@ -24,7 +24,6 @@
             android:id="@+id/highlightCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFD89"
             android:padding="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,10 +33,10 @@
                 android:id="@+id/highlight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/libre_franklin_semibold"
+                android:fontFamily="@font/lora_bold"
                 android:paddingBottom="0dp"
                 android:text="Highlight"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@color/gray_dark"
                 android:textSize="18sp" />
 
             <TextView

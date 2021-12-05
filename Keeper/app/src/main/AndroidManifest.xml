@@ -35,7 +35,7 @@
             android:name=".BookDetailActivity"
             android:exported="true"
             android:label="Searched Book"
-            android:parentActivityName=".AddBookActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddBookActivity"
             android:exported="true"
