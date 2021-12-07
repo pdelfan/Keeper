@@ -2,11 +2,16 @@ package com.example.keeper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -46,6 +51,8 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
     RecyclerView recyclerView;
 
     private TextView noHighlightLabel;
+    private static final int REQUEST_CAMERA_CODE = 100;
+    private Bitmap bitmap;
 
 
     @Override
@@ -56,6 +63,8 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
 
         addHighlightFAB = findViewById(R.id.fab_add_highlight);
         addHighlightFAB.setColorFilter(Color.WHITE);
@@ -91,13 +100,19 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
             startActivity(intent);
         });
 
+
+        if (ContextCompat.checkSelfPermission(HighlightsActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HighlightsActivity.this, new String[] {
+                    Manifest.permission.CAMERA
+            }, REQUEST_CAMERA_CODE);
+        }
+
         addImageFAB.setOnClickListener(view -> {
-            // sensor
             if (lightValue < 800.0) {
                 openDialog();
             } else {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivity(intent);
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePictureIntent, REQUEST_CAMERA_CODE);
             }
         });
 
@@ -112,7 +127,6 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -123,7 +137,7 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
     protected void onResume() {
         super.onResume();
         updateAdapter();
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     public void updateAdapter() {
@@ -163,12 +177,11 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
         }
     }
 
-
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT) {
             lightValue = sensorEvent.values[0];
-            Toast.makeText(this, "Lux "+lightValue, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Lux "+lightValue, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -210,4 +223,5 @@ public class HighlightsActivity extends AppCompatActivity implements SensorEvent
     };
 
 
-}
+
+    }

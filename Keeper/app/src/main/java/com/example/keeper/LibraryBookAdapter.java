@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,16 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class LibraryBookAdapter extends RecyclerView.Adapter<LibraryBookAdapter.LibraryBooksViewHolder> {
+public class LibraryBookAdapter extends RecyclerView.Adapter<LibraryBookAdapter.LibraryBooksViewHolder> implements Filterable {
 
     private final Context context;
     private List<Book> bookList;
+    private List<Book> bookListAll;
 
     public LibraryBookAdapter(Context context, List<Book> books) {
         this.context = context;
         bookList = books;
+        this.bookListAll = new ArrayList<>(bookList);
     }
 
     @NonNull
@@ -90,4 +95,50 @@ public class LibraryBookAdapter extends RecyclerView.Adapter<LibraryBookAdapter.
 
         }
     }
+
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        // in background
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<Book> filteredList = new ArrayList<>();
+            if (charSequence.toString().isEmpty()) {
+                filteredList.addAll(bookListAll);
+            } else {
+                for (Book book : bookListAll) {
+                    if (book.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase()) || book.getAuthors().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        filteredList.add(book);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        // on UI thread
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            bookList.clear();
+            bookList.addAll((Collection<? extends Book>) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
 }
